@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modul Interaktif OSN Astronomi</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KaTeX for beautiful math equations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .latex-equation {
+      overflow-x: auto;
+      background: #f8fafc;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e2e8f0;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-md border-b border-indigo-500/20 py-6 px-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <span class="bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-2.5 py-1 rounded-full border border-indigo-500/30">Modul OSN Astronomi V2</span>
+        <h1 class="text-2xl md:text-3xl font-bold tracking-tight mt-1">Instrumen Hitungan & Teori Astronomi</h1>
+        <p class="text-xs md:text-sm text-slate-300 italic mt-0.5">Konsep Visual Bermakna dengan Struktur Belajar "I Do, We Do, You Do"</p>
+      </div>
+      <!-- Mode Toggle -->
+      <div class="flex items-center gap-2 bg-slate-800/80 p-1.5 rounded-xl border border-slate-700">
+        <button id="btn-siswa" onclick="switchMode('siswa')" class="px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow">
+          👤 Lembar Siswa
+        </button>
+        <button id="btn-guru" onclick="switchMode('guru')" class="px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white">
+          👨‍🏫 Lembar Guru (Kunci & Diagnostik)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-4 py-8 flex-grow grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="lg:col-span-1 space-y-2">
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 sticky top-28">
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2">Daftar Topik Materi</h2>
+        <nav class="space-y-1">
+          <button onclick="scrollToTopic('topik1')" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-indigo-600 bg-indigo-50 hover:bg-indigo-100/50 transition-colors flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-600"></span> Topik 1: Sideris vs Sinodis
+          </button>
+          <button onclick="scrollToTopic('topik2')" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-slate-300"></span> Topik 2: Resolusi Teleskop
+          </button>
+          <button onclick="scrollToTopic('topik3')" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-slate-300"></span> Topik 3: Kuadrat Kebalikan Fluks
+          </button>
+          <button onclick="scrollToTopic('topik4')" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-slate-300"></span> Topik 4: Hukum Wien
+          </button>
+          <button onclick="scrollToTopic('topik5')" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-slate-300"></span> Topik 5: Stefan-Boltzmann
+          </button>
+        </nav>
+        
+        <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 space-y-2">
+          <p class="font-semibold text-slate-700">💡 Petunjuk Penggunaan:</p>
+          <p>Gunakan tombol di atas untuk melihat <strong>Kunci Jawaban & Pembahasan Detil</strong> yang didesain khusus untuk pegangan guru.</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="lg:col-span-3 space-y-12">
+
+      <!-- TOPIK 1 -->
+      <section id="topik1" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 1: Mekanika Benda Langit</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Skala Waktu Sideris vs Sinodis</h2>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-slate-800 flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 p-1 rounded-lg text-xs">A</span> Teori & Konsep Fisika Sistem
+          </h3>
+          <p class="text-slate-600 leading-relaxed text-sm">
+            Perbedaan antara kala periode <strong>Sideris (Sidereal)</strong> dan <strong>Sinodis (Synodic)</strong> berakar pada fakta bahwa kerangka acuan pengamatan kita di Bumi tidaklah diam, melainkan bergerak melingkar (berevolusi) mengelilingi Matahari.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-slate-600 text-sm">
+            <li><strong>Periode Sideris (P):</strong> Kala revolusi sejati suatu objek langit menggunakan kerangka acuan bintang latar belakang yang sangat jauh (Inersial murni). Satu hari sideris Bumi adalah <span class="font-semibold">23 jam 56 menit 4 detik</span>.</li>
+            <li><strong>Periode Sinodis (S):</strong> Kala waktu agar suatu konfigurasi benda langit (seperti Oposisi/Bulan Purnama) berulang kembali relatif terhadap Matahari dari pandangan pengamat di Bumi. Bumi bergerak maju dalam orbitnya sehingga planet luar butuh memutar sudut ekstra untuk kembali segaris lurus.</li>
+          </ul>
+
+          <div class="latex-equation">
+            $$\frac{1}{S} = \frac{1}{P_{\text{dalam}}} - \frac{1}{P_{\text{luar}}}$$
+          </div>
+
+          <!-- SVG DIAGRAM 1 -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col items-center">
+            <svg class="w-full max-w-lg h-auto" viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background / Universe stars representation -->
+              <g fill="#94a3b8" opacity="0.4">
+                <circle cx="20" cy="30" r="1"/> <circle cx="450" cy="50" r="1.5"/> <circle cx="120" cy="280" r="1"/> <circle cx="480" cy="250" r="1"/>
+              </g>
+              
+              <!-- Sun -->
+              <circle cx="250" cy="160" r="24" fill="#f59e0b" class="animate-pulse" />
+              <circle cx="250" cy="160" r="18" fill="#fbbf24" />
+              <text x="250" y="165" font-size="10" fill="#78350f" font-weight="bold" text-anchor="middle">Matahari</text>
+
+              <!-- Earth Orbit -->
+              <circle cx="250" cy="160" r="70" fill="none" stroke="#cbd5e1" stroke-dasharray="4 4" stroke-width="1.5" />
+              <!-- Planet Orbit -->
+              <circle cx="250" cy="160" r="130" fill="none" stroke="#94a3b8" stroke-dasharray="4 4" stroke-width="1.5" />
+
+              <!-- Alignments Lines -->
+              <!-- Alignment 1 (Straight line up) -->
+              <line x1="250" y1="160" x2="250" y2="20" stroke="#f43f5e" stroke-width="1" stroke-dasharray="2 2" />
+              <text x="250" y="15" font-size="9" fill="#f43f5e" text-anchor="middle" font-weight="bold">Konfigurasi Oposisi 1</text>
+
+              <!-- Alignment 2 (Moved) -->
+              <line x1="250" y1="160" x2="160" y2="40" stroke="#10b981" stroke-width="1" stroke-dasharray="2 2" />
+              <text x="140" y="35" font-size="9" fill="#10b981" text-anchor="middle" font-weight="bold">Oposisi 2 (Setelah Waktu S)</text>
+
+              <!-- Orbit Positions -->
+              <!-- Earth Position 1 (Start) -->
+              <circle cx="250" cy="90" r="7" fill="#3b82f6" />
+              <circle cx="250" cy="90" r="4" fill="#93c5fd" />
+              <text x="262" y="93" font-size="10" fill="#1e3a8a" font-weight="bold">Bumi (E₁)</text>
+
+              <!-- Planet Position 1 (Start) -->
+              <circle cx="250" cy="30" r="9" fill="#ef4444" />
+              <circle cx="250" cy="30" r="5" fill="#fca5a5" />
+              <text x="264" y="33" font-size="10" fill="#7f1d1d" font-weight="bold">Planet Luar (P₁)</text>
+
+              <!-- Moved Earth to E2 after S (e.g. angle around 125 degrees counterclockwise, i.e. 215 deg in standard polar coordinates) -->
+              <!-- Angle = 125 deg from vertical. x = 250 + 70*cos(215 deg) = 250 - 57 = 193, y = 160 + 70*sin(215) = 160 - 40 = 120 -->
+              <circle cx="193" cy="120" r="7" fill="#3b82f6" opacity="0.6"/>
+              <text x="175" y="138" font-size="10" fill="#1e3a8a" opacity="0.8">Bumi (E₂)</text>
+
+              <!-- Moved Planet to P2 after S -->
+              <!-- x = 250 - 130*cos(52.5 deg) = 250 - 103 = 147, y = 160 - 130*sin(52.5) = 160 - 79 = 81 -->
+              <circle cx="147" cy="81" r="9" fill="#ef4444" opacity="0.6"/>
+              <text x="110" y="85" font-size="10" fill="#7f1d1d" opacity="0.8">Planet (P₂)</text>
+
+              <!-- Direction Arrow -->
+              <path d="M 170,105 A 70,70 0 0,1 250,90" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow)" />
+            </svg>
+            <p class="text-xs text-slate-500 italic mt-2 text-center">Gambar 1: Perbedaan pergeseran orbit Bumi dan Planet Superior menciptakan jeda waktu Sinodis (S).</p>
+          </div>
+        </div>
+
+        <!-- Structure Cards -->
+        <div class="grid grid-cols-1 gap-6 pt-4">
+          <!-- I DO -->
+          <div class="border-l-4 border-indigo-600 bg-indigo-50/50 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-indigo-700 tracking-wide uppercase">[I DO] Pemodelan Guru</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal:</p>
+            <p class="text-sm text-slate-700 italic">Sebuah planet luar mengorbit Matahari dengan periode 2 tahun. Berapakah periode sinodis (S) planet tersebut dari Bumi?</p>
+            <div class="mt-4 bg-white p-3.5 rounded-xl border border-indigo-100 text-xs space-y-2 text-slate-600 leading-relaxed">
+              <p class="font-bold text-slate-800">Langkah Penyelesaian:</p>
+              <p>1. Tuliskan hubungan: \(\frac{1}{S} = \frac{1}{P_{\text{dalam}}} - \frac{1}{P_{\text{luar}}}\)</p>
+              <p>2. Substitusi Bumi (1 tahun) & Planet (2 tahun): \(\frac{1}{S} = \frac{1}{1} - \frac{1}{2}\)</p>
+              <p>3. Samakan penyebut: \(\frac{1}{S} = \frac{2}{2} - \frac{1}{2} = \frac{1}{2}\)</p>
+              <p>4. Balikkan persamaan: \(S = 2 \text{ tahun}\)</p>
+            </div>
+          </div>
+
+          <!-- WE DO -->
+          <div class="border-l-4 border-teal-500 bg-teal-50/30 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-teal-700 tracking-wide uppercase">[WE DO] Kolaborasi Kelas</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal Latihan Bersama:</p>
+            <p class="text-sm text-slate-700">Bulan mengorbit Bumi dalam waktu 27,3 hari (Sideris). Tetapi waktu dari Bulan Purnama ke Purnama berikutnya adalah 29,5 hari (Sinodis). Berapakah periode revolusi semu sistem ini terhadap Matahari?</p>
+            <button onclick="toggleSection('sol-topik1-we')" class="mt-3 text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1">
+              👁️ Lihat Jalur Solusi Guru
+            </button>
+            <div id="sol-topik1-we" class="hidden mt-4 bg-white p-4 rounded-xl border border-teal-100 text-xs text-slate-600 space-y-1">
+              <p class="font-bold text-slate-800">Langkah Kunci:</p>
+              <p>\(\frac{1}{P_{\text{luar}}} = \frac{1}{P_{\text{sideris}}} - \frac{1}{S}\)</p>
+              <p>\(\frac{1}{P_{\text{luar}}} = \frac{1}{27,3} - \frac{1}{29,5} = \frac{2,2}{805,35}\)</p>
+              <p>\(P_{\text{luar}} \approx 366,07 \text{ hari}\) (Mendekati kala revolusi Bumi terhadap Matahari!)</p>
+            </div>
+          </div>
+
+          <!-- YOU DO -->
+          <div class="border-l-4 border-rose-500 bg-rose-50/20 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-rose-700 tracking-wide uppercase">[YOU DO] Uji Mandiri Siswa</span>
+            <div class="mt-3 space-y-4 text-sm text-slate-700">
+              <p><strong>Soal 1A:</strong> Planet Mars mengorbit Matahari selama 1,88 tahun. Jika revolusi Bumi 1 tahun, hitunglah periode sinodis Mars!</p>
+              <p><strong>Soal 1B:</strong> Sebuah planet luar beroposisi dengan Bumi setiap 1,1 tahun sekali (S = 1,1 tahun). Hitunglah kala revolusi asli planet tersebut!</p>
+            </div>
+            <!-- Interactive Quiz Section -->
+            <div class="mt-4 pt-4 border-t border-rose-100 flex flex-col md:flex-row gap-2 items-center">
+              <input id="ans-t1" type="text" placeholder="Masukkan jawaban Soal 1A (cth: 2.14)" class="px-3 py-2 border rounded-lg text-xs w-full md:w-auto focus:outline-none focus:ring-1 focus:ring-rose-500">
+              <button onclick="checkAnswer('t1', '2.14', 'Jawaban Benar! Mars beroposisi setiap sekitar 2,14 tahun sekali (780 hari).')" class="bg-rose-600 text-white text-xs px-4 py-2 rounded-lg font-medium hover:bg-rose-700 w-full md:w-auto">Cek Jawaban</button>
+            </div>
+            <p id="feedback-t1" class="text-xs font-semibold mt-2 hidden"></p>
+          </div>
+        </div>
+
+        <!-- GURU SECTION ONLY -->
+        <div class="guru-mode hidden bg-indigo-900/5 p-6 rounded-2xl border border-indigo-900/20 space-y-3">
+          <h4 class="text-sm font-bold text-indigo-950 flex items-center gap-1">📋 Lembar Pegangan & Diagnostik Guru</h4>
+          <p class="text-xs text-slate-600">
+            <strong>Analisis Kesalahan Siswa:</strong> Siswa yang gagal pada bagian [YOU DO] ini umumnya tidak teliti saat memanipulasi pembagian pecahan aljabar bertingkat. Berikan penguatan pada pemecahan dasar pecahan terlebih dahulu sebelum masuk ke konsep fisika astronomi.
+          </p>
+        </div>
+      </section>
+
+
+      <!-- TOPIK 2 -->
+      <section id="topik2" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 2: Fotometri & Alat Optik</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Resolusi Optik & Instrumen Teleskop</h2>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-slate-800 flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 p-1 rounded-lg text-xs">A</span> Teori & Konsep Fisika Sistem
+          </h3>
+          <p class="text-slate-600 leading-relaxed text-sm">
+            Teleskop astronomi tidak sekadar memperbesar objek, tetapi mengumpulkan cahaya (*Light Gathering Power*) dan memisahkan dua titik yang letaknya sangat dekat di langit (Daya Pisah).
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-slate-600 text-sm">
+            <li><strong>Perbesaran Sudut (M):</strong> Perbandingan panjang fokus objektif (\(f_{\text{obj}}\)) dan okuler (\(f_{\text{oku}}\)).</li>
+            <li><strong>Resolusi Batas Dawes (\(\theta\)):</strong> Batas minimal agar pola difraksi (*Airy Disk*) dari dua bintang tidak berbaur menjadi satu cahaya yang blur.</li>
+          </ul>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="latex-equation">
+              $$M = \frac{f_{\text{obj}}}{f_{\text{oku}}}$$
+            </div>
+            <div class="latex-equation">
+              $$\theta'' = \frac{11,6}{D_{\text{cm}}}$$
+            </div>
+          </div>
+
+          <!-- SVG DIAGRAM 2 -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col items-center">
+            <svg class="w-full max-w-lg h-auto" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid Background representation -->
+              <g stroke="#e2e8f0" stroke-width="0.5">
+                <line x1="50" y1="20" x2="50" y2="220" /> <line x1="250" y1="20" x2="250" y2="220" /> <line x1="450" y1="20" x2="450" y2="220" />
+                <line x1="10" y1="210" x2="490" y2="210" />
+              </g>
+
+              <!-- Panel 1: Unresolved (Bintang menyatu/blur) -->
+              <g transform="translate(0,0)">
+                <text x="80" y="30" font-size="10" font-weight="bold" fill="#ef4444" text-anchor="middle">1. Belum Terpisah (Blur)</text>
+                <!-- Combined single broad curve -->
+                <path d="M 20,210 Q 80,40 140,210" fill="none" stroke="#ef4444" stroke-width="2.5" />
+                <!-- Star spheres overlapping completely -->
+                <circle cx="75" cy="205" r="5" fill="#fca5a5" />
+                <circle cx="85" cy="205" r="5" fill="#fca5a5" />
+              </g>
+
+              <!-- Panel 2: Just Resolved (Dawes Limit) -->
+              <g transform="translate(170,0)">
+                <text x="80" y="30" font-size="10" font-weight="bold" fill="#eab308" text-anchor="middle">2. Batas Kriteria Dawes</text>
+                <!-- Two overlapping curves -->
+                <path d="M 10,210 Q 55,70 80,140" fill="none" stroke="#eab308" stroke-width="1.5" stroke-dasharray="2 2" />
+                <path d="M 80,140 Q 105,70 150,210" fill="none" stroke="#eab308" stroke-width="1.5" stroke-dasharray="2 2" />
+                <!-- Resultant curve with a small dip -->
+                <path d="M 10,210 C 45,70 65,110 80,120 C 95,110 115,70 150,210" fill="none" stroke="#eab308" stroke-width="2.5" />
+                <circle cx="55" cy="205" r="5" fill="#fef08a" />
+                <circle cx="105" cy="205" r="5" fill="#fef08a" />
+              </g>
+
+              <!-- Panel 3: Well Resolved (Terpisah Jelas) -->
+              <g transform="translate(340,0)">
+                <text x="80" y="30" font-size="10" font-weight="bold" fill="#10b981" text-anchor="middle">3. Terpisah Jelas</text>
+                <!-- Two separate curves -->
+                <path d="M 10,210 Q 45,70 80,210" fill="none" stroke="#10b981" stroke-width="2" />
+                <path d="M 80,210 Q 115,70 150,210" fill="none" stroke="#10b981" stroke-width="2" />
+                <circle cx="45" cy="205" r="5" fill="#a7f3d0" />
+                <circle cx="115" cy="205" r="5" fill="#a7f3d0" />
+              </g>
+            </svg>
+            <p class="text-xs text-slate-500 italic mt-2 text-center">Gambar 2: Sifat difraksi cahaya memerlukan diameter aperture (D) yang besar untuk mengurai objek rapat.</p>
+          </div>
+        </div>
+
+        <!-- Structure Cards -->
+        <div class="grid grid-cols-1 gap-6 pt-4">
+          <!-- I DO -->
+          <div class="border-l-4 border-indigo-600 bg-indigo-50/50 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-indigo-700 tracking-wide uppercase">[I DO] Pemodelan Guru</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal:</p>
+            <p class="text-sm text-slate-700 italic">Sebuah teleskop berpanjang fokus objektif 1000 mm dipasangi okuler 20 mm. Berapakah perbesarannya?</p>
+            <div class="mt-4 bg-white p-3.5 rounded-xl border border-indigo-100 text-xs space-y-2 text-slate-600 leading-relaxed">
+              <p class="font-bold text-slate-800">Langkah Penyelesaian:</p>
+              <p>1. Gunakan rumus: \(M = f_{\text{obj}} / f_{\text{oku}}\)</p>
+              <p>2. Substitusi nilai: \(M = 1000 \text{ mm} / 20 \text{ mm} = 50 \text{ kali}\)</p>
+            </div>
+          </div>
+
+          <!-- WE DO -->
+          <div class="border-l-4 border-teal-500 bg-teal-50/30 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-teal-700 tracking-wide uppercase">[WE DO] Kolaborasi Kelas</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal Latihan Bersama:</p>
+            <p class="text-sm text-slate-700">Teleskop berdiameter 20 cm mengamati sepasang bintang kembar. Berapakah limit sudut terkecil Dawes yang masih dapat dipisahkan?</p>
+            <button onclick="toggleSection('sol-topik2-we')" class="mt-3 text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1">
+              👁️ Lihat Jalur Solusi Guru
+            </button>
+            <div id="sol-topik2-we" class="hidden mt-4 bg-white p-4 rounded-xl border border-teal-100 text-xs text-slate-600 space-y-1">
+              <p class="font-bold text-slate-800">Langkah Kunci:</p>
+              <p>\(\theta'' = \frac{11,6}{D_{\text{cm}}}\)</p>
+              <p>\(\theta'' = \frac{11,6}{20} = 0,58 \text{ detik busur}\)</p>
+            </div>
+          </div>
+
+          <!-- YOU DO -->
+          <div class="border-l-4 border-rose-500 bg-rose-50/20 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-rose-700 tracking-wide uppercase">[YOU DO] Uji Mandiri Siswa</span>
+            <div class="mt-3 space-y-4 text-sm text-slate-700">
+              <p><strong>Soal 2A:</strong> Teleskop berpanjang fokus 1200 mm ingin diatur agar memperbesar objek 60 kali. Tentukan ukuran okuler yang dibutuhkan!</p>
+              <p><strong>Soal 2B:</strong> Dua bintang terpisah sejauh 0,2 detik busur. Tentukan diameter lensa objektif teleskop minimal (dalam cm) agar kedua bintang tampak terpisah!</p>
+            </div>
+            <!-- Interactive Quiz Section -->
+            <div class="mt-4 pt-4 border-t border-rose-100 flex flex-col md:flex-row gap-2 items-center">
+              <input id="ans-t2" type="text" placeholder="Masukkan jawaban Soal 2A (cth: 20)" class="px-3 py-2 border rounded-lg text-xs w-full md:w-auto focus:outline-none focus:ring-1 focus:ring-rose-500">
+              <button onclick="checkAnswer('t2', '20', 'Jawaban Benar! Anda memerlukan lensa okuler berfokus 20 mm untuk menghasilkan perbesaran 60 kali.')" class="bg-rose-600 text-white text-xs px-4 py-2 rounded-lg font-medium hover:bg-rose-700 w-full md:w-auto">Cek Jawaban</button>
+            </div>
+            <p id="feedback-t2" class="text-xs font-semibold mt-2 hidden"></p>
+          </div>
+        </div>
+
+        <!-- GURU SECTION ONLY -->
+        <div class="guru-mode hidden bg-indigo-900/5 p-6 rounded-2xl border border-indigo-900/20 space-y-3">
+          <h4 class="text-sm font-bold text-indigo-950 flex items-center gap-1">📋 Lembar Pegangan & Diagnostik Guru</h4>
+          <p class="text-xs text-slate-600">
+            <strong>Analisis Kesalahan Siswa:</strong> Guru harus menekankan konversi satuan. Siswa seringkali salah karena tidak menyamakan satuan (cm, mm, atau m) sebelum memasukkan nilai diameter $D$ ke rumus Dawes.
+          </p>
+        </div>
+      </section>
+
+
+      <!-- TOPIK 3 -->
+      <section id="topik3" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 3: Astrofisika Radiasi</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Hukum Kuadrat Kebalikan Fluks Radiasi</h2>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-slate-800 flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 p-1 rounded-lg text-xs">A</span> Teori & Konsep Fisika Sistem
+          </h3>
+          <p class="text-slate-600 leading-relaxed text-sm">
+            Energi pancaran bintang merambat meluas membentuk selubung bola tiga dimensi. Karena luas selubung bertambah sesuai \(4\pi d^2\), maka kerapatan energi (Fluks) yang diterima pengamat melemah sebanding dengan kuadrat jarak.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-slate-600 text-sm">
+            <li><strong>Luminositas (L):</strong> Total energi asli yang dipancarkan permukaan bintang per detik (Watt). Nilainya konstan intrinsik.</li>
+            <li><strong>Fluks Radiasi (F):</strong> Kecerlangan semu yang tertangkap oleh pengamat di Bumi per satuan luas (Watt/m²).</li>
+          </ul>
+
+          <div class="latex-equation">
+            $$F = \frac{L}{4\pi d^2}$$
+          </div>
+
+          <!-- SVG DIAGRAM 3 -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col items-center">
+            <svg class="w-full max-w-lg h-auto" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+              <!-- Point Source (Star) -->
+              <circle cx="40" cy="120" r="12" fill="#fbbf24" class="animate-pulse" />
+              <circle cx="40" cy="120" r="7" fill="#fff" />
+              <text x="40" y="145" font-size="9" fill="#78350f" font-weight="bold" text-anchor="middle">Bintang (L)</text>
+
+              <!-- Radial spreading lines -->
+              <line x1="52" y1="120" x2="450" y2="40" stroke="#cbd5e1" stroke-width="1" />
+              <line x1="52" y1="120" x2="450" y2="200" stroke="#cbd5e1" stroke-width="1" />
+              <line x1="52" y1="120" x2="450" y2="120" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2 2" />
+
+              <!-- Distance d -->
+              <!-- Plane d -->
+              <path d="M 170,90 L 170,150" stroke="#3b82f6" stroke-width="2" />
+              <rect x="165" y="110" width="10" height="20" fill="#93c5fd" stroke="#2563eb" stroke-width="1" />
+              <text x="170" y="80" font-size="10" fill="#1e3a8a" font-weight="bold" text-anchor="middle">Fluks = F</text>
+              <text x="170" y="170" font-size="9" fill="#64748b" text-anchor="middle">Jarak d</text>
+
+              <!-- Plane 2d -->
+              <path d="M 300,70 L 300,170" stroke="#10b981" stroke-width="2" />
+              <!-- Represent 4 squares -->
+              <g stroke="#059669" stroke-width="0.5" fill="#a7f3d0">
+                <rect x="295" y="90" width="10" height="20" />
+                <rect x="295" y="110" width="10" height="20" />
+                <rect x="295" y="130" width="10" height="20" />
+              </g>
+              <text x="300" y="60" font-size="10" fill="#065f46" font-weight="bold" text-anchor="middle">Fluks = F/4</text>
+              <text x="300" y="190" font-size="9" fill="#64748b" text-anchor="middle">Jarak 2d</text>
+
+              <!-- Plane 3d -->
+              <path d="M 430,50 L 430,190" stroke="#f59e0b" stroke-width="2" />
+              <!-- Represent 9 squares -->
+              <g stroke="#d97706" stroke-width="0.5" fill="#fde68a">
+                <rect x="425" y="70" width="10" height="15" />
+                <rect x="425" y="85" width="10" height="15" />
+                <rect x="425" y="100" width="10" height="15" />
+                <rect x="425" y="115" width="10" height="15" />
+                <rect x="425" y="130" width="10" height="15" />
+                <rect x="425" y="145" width="10" height="15" />
+              </g>
+              <text x="430" y="40" font-size="10" fill="#78350f" font-weight="bold" text-anchor="middle">Fluks = F/9</text>
+              <text x="430" y="210" font-size="9" fill="#64748b" text-anchor="middle">Jarak 3d</text>
+            </svg>
+            <p class="text-xs text-slate-500 italic mt-2 text-center">Gambar 3: Sifat geometri ruang tiga dimensi membagi energi merata di selubung bola.</p>
+          </div>
+        </div>
+
+        <!-- Structure Cards -->
+        <div class="grid grid-cols-1 gap-6 pt-4">
+          <!-- I DO -->
+          <div class="border-l-4 border-indigo-600 bg-indigo-50/50 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-indigo-700 tracking-wide uppercase">[I DO] Pemodelan Guru</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal:</p>
+            <p class="text-sm text-slate-700 italic">Bintang berdaya \(4 \times 10^{26}\text{ W}\) berjarak \(2 \times 10^{11}\text{ m}\). Berapakah fluks energi yang diterima Bumi? (Tulis dalam variabel \(\pi\)).</p>
+            <div class="mt-4 bg-white p-3.5 rounded-xl border border-indigo-100 text-xs space-y-2 text-slate-600 leading-relaxed">
+              <p class="font-bold text-slate-800">Langkah Penyelesaian:</p>
+              <p>1. Gunakan rumus: \(F = \frac{L}{4\pi d^2}\)</p>
+              <p>2. Substitusi: \(F = \frac{4 \times 10^{26}}{4\pi \cdot (2 \times 10^{11})^2}\)</p>
+              <p>3. Kuadratkan penyebut: \(F = \frac{4 \times 10^{26}}{4\pi \cdot 4 \times 10^{22}} = \frac{10^4}{4\pi} = \frac{2500}{\pi} \text{ W/m}^2\)</p>
+            </div>
+          </div>
+
+          <!-- WE DO -->
+          <div class="border-l-4 border-teal-500 bg-teal-50/30 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-teal-700 tracking-wide uppercase">[WE DO] Kolaborasi Kelas</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal Latihan Bersama:</p>
+            <p class="text-sm text-slate-700">Dua bintang Alfa dan Beta memiliki daya (L) yang sama. Jarak bintang Beta ternyata 3 kali lipat lebih jauh. Hitunglah perbandingan fluks cahayanya di Bumi!</p>
+            <button onclick="toggleSection('sol-topik3-we')" class="mt-3 text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1">
+              👁️ Lihat Jalur Solusi Guru
+            </button>
+            <div id="sol-topik3-we" class="hidden mt-4 bg-white p-4 rounded-xl border border-teal-100 text-xs text-slate-600 space-y-1">
+              <p class="font-bold text-slate-800">Langkah Kunci:</p>
+              <p>Sifat: \(F \propto \frac{1}{d^2}\)</p>
+              <p>Perbandingan: \(\frac{F_{\text{Beta}}}{F_{\text{Alfa}}} = \left(\frac{d_{\text{Alfa}}}{d_{\text{Beta}}}\right)^2 = \left(\frac{1}{3}\right)^2 = \frac{1}{9}\)</p>
+              <p>Maka rasio adalah 1 : 9</p>
+            </div>
+          </div>
+
+          <!-- YOU DO -->
+          <div class="border-l-4 border-rose-500 bg-rose-50/20 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-rose-700 tracking-wide uppercase">[YOU DO] Uji Mandiri Siswa</span>
+            <div class="mt-3 space-y-4 text-sm text-slate-700">
+              <p><strong>Soal 3A:</strong> Satelit mendeteksi fluks Matahari di Bumi sebesar 1360 W/m². Berapakah fluks yang dideteksi jika satelit terbang menjauh hingga jaraknya menjadi 2 kali lipat?</p>
+              <p><strong>Soal 3B:</strong> Dua bintang X dan Y memiliki fluks yang sama di Bumi. Jika luminositas bintang X sebenarnya adalah 16 kali luminositas bintang Y, tentukan rasio perbandingan jaraknya!</p>
+            </div>
+            <!-- Interactive Quiz Section -->
+            <div class="mt-4 pt-4 border-t border-rose-100 flex flex-col md:flex-row gap-2 items-center">
+              <input id="ans-t3" type="text" placeholder="Masukkan jawaban Soal 3A (cth: 340)" class="px-3 py-2 border rounded-lg text-xs w-full md:w-auto focus:outline-none focus:ring-1 focus:ring-rose-500">
+              <button onclick="checkAnswer('t3', '340', 'Jawaban Benar! Berdasarkan hukum kuadrat terbalik, menjauh 2 kali jarak semula akan melemahkan fluks sebesar 2 kuadrat (4 kali), yaitu menjadi 340 W/m².')" class="bg-rose-600 text-white text-xs px-4 py-2 rounded-lg font-medium hover:bg-rose-700 w-full md:w-auto">Cek Jawaban</button>
+            </div>
+            <p id="feedback-t3" class="text-xs font-semibold mt-2 hidden"></p>
+          </div>
+        </div>
+
+        <!-- GURU SECTION ONLY -->
+        <div class="guru-mode hidden bg-indigo-900/5 p-6 rounded-2xl border border-indigo-900/20 space-y-3">
+          <h4 class="text-sm font-bold text-indigo-950 flex items-center gap-1">📋 Lembar Pegangan & Diagnostik Guru</h4>
+          <p class="text-xs text-slate-600">
+            <strong>Analisis Kesalahan Siswa:</strong> Ini adalah hukum paling mendasar di OSN Astronomi. Siswa yang menjawab "680" pada Soal 3A (hanya membagi 2) menandakan logika geometri tiga dimensi mereka belum matang.
+          </p>
+        </div>
+      </section>
+
+
+      <!-- TOPIK 4 -->
+      <section id="topik4" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 4: Termodinamika Bintang</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Hukum Radiasi Wien & Suhu Bintang</h2>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-slate-800 flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 p-1 rounded-lg text-xs">A</span> Teori & Konsep Fisika Sistem
+          </h3>
+          <p class="text-slate-600 leading-relaxed text-sm">
+            Bintang memancarkan radiasi yang mendekati karakteristik Benda Hitam Sempurna (*Blackbody*). Kurva radiasinya asimetris, dan puncak emisi panjang gelombangnya bergeser ke arah energi tinggi (biru/ultraviolet) seiring kenaikan suhunya.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-slate-600 text-sm">
+            <li><strong>Suhu Mutlak (T):</strong> Suhu permukaan efektif bintang dinyatakan dalam Kelvin (K).</li>
+            <li><strong>\(\lambda_{\text{max}}\):</strong> Panjang gelombang tempat energi paling intensif dipancarkan.</li>
+          </ul>
+
+          <div class="latex-equation">
+            $$\lambda_{\text{max}} \cdot T = b$$
+            <span class="text-xs text-slate-500 block mt-1">(di mana \(b = 2,9 \times 10^{-3} \text{ m K}\))</span>
+          </div>
+
+          <!-- SVG DIAGRAM 4 -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col items-center">
+            <svg class="w-full max-w-lg h-auto" viewBox="0 0 500 240" xmlns="http://www.w3.org/2000/svg">
+              <!-- Axis -->
+              <line x1="50" y1="20" x2="50" y2="200" stroke="#475569" stroke-width="2" />
+              <line x1="50" y1="200" x2="470" y2="200" stroke="#475569" stroke-width="2" />
+              <text x="35" y="100" font-size="10" fill="#475569" transform="rotate(-90 35 100)" text-anchor="middle">Intensitas Radiasi (I)</text>
+              <text x="260" y="220" font-size="10" fill="#475569" text-anchor="middle">Panjang Gelombang (λ)</text>
+
+              <!-- Color spectrum bar on x axis -->
+              <g opacity="0.3">
+                <rect x="100" y="202" width="40" height="6" fill="#3b82f6" /> <!-- Blue -->
+                <rect x="140" y="202" width="40" height="6" fill="#10b981" /> <!-- Green -->
+                <rect x="180" y="202" width="40" height="6" fill="#eab308" /> <!-- Yellow -->
+                <rect x="220" y="202" width="60" height="6" fill="#ef4444" /> <!-- Red -->
+              </g>
+
+              <!-- Curve 1 (T = 6000K, Hot Star) -->
+              <path d="M 52,200 Q 120,30 200,160 T 450,200" fill="none" stroke="#3b82f6" stroke-width="2.5" />
+              <text x="140" y="55" font-size="9" fill="#2563eb" font-weight="bold">Bintang Panas (6000 K)</text>
+              <line x1="120" y1="80" x2="120" y2="200" stroke="#2563eb" stroke-width="1" stroke-dasharray="2 2" />
+
+              <!-- Curve 2 (T = 4500K, Medium Star) -->
+              <path d="M 52,200 Q 180,80 260,170 T 450,200" fill="none" stroke="#eab308" stroke-width="2" />
+              <text x="210" y="100" font-size="9" fill="#ca8a04" font-weight="bold">Bintang Sedang (4500 K)</text>
+              <line x1="180" y1="120" x2="180" y2="200" stroke="#ca8a04" stroke-width="1" stroke-dasharray="2 2" />
+
+              <!-- Curve 3 (T = 3000K, Cool Star) -->
+              <path d="M 52,200 Q 250,140 320,185 T 450,200" fill="none" stroke="#ef4444" stroke-width="1.5" />
+              <text x="280" y="150" font-size="9" fill="#dc2626" font-weight="bold">Bintang Dingin (3000 K)</text>
+              <line x1="250" y1="160" x2="250" y2="200" stroke="#dc2626" stroke-width="1" stroke-dasharray="2 2" />
+            </svg>
+            <p class="text-xs text-slate-500 italic mt-2 text-center">Gambar 4: Pergeseran kurva Planck benda hitam seiring kenaikan temperatur.</p>
+          </div>
+        </div>
+
+        <!-- Structure Cards -->
+        <div class="grid grid-cols-1 gap-6 pt-4">
+          <!-- I DO -->
+          <div class="border-l-4 border-indigo-600 bg-indigo-50/50 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-indigo-700 tracking-wide uppercase">[I DO] Pemodelan Guru</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal:</p>
+            <p class="text-sm text-slate-700 italic">Sebuah bintang memancarkan puncak energi pada panjang gelombang \(5,8 \times 10^{-7}\text{ meter}\). Berapakah suhu efektif permukaan bintang?</p>
+            <div class="mt-4 bg-white p-3.5 rounded-xl border border-indigo-100 text-xs space-y-2 text-slate-600 leading-relaxed">
+              <p class="font-bold text-slate-800">Langkah Penyelesaian:</p>
+              <p>1. Rumus Wien: \(T = b / \lambda_{\text{max}}\)</p>
+              <p>2. Substitusi nilai: \(T = \frac{2,9 \times 10^{-3}}{5,8 \times 10^{-7}}\)</p>
+              <p>3. Hitung eksponen: \(T = 0,5 \times 10^4 = 5000 \text{ Kelvin}\)</p>
+            </div>
+          </div>
+
+          <!-- WE DO -->
+          <div class="border-l-4 border-teal-500 bg-teal-50/30 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-teal-700 tracking-wide uppercase">[WE DO] Kolaborasi Kelas</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal Latihan Bersama:</p>
+            <p class="text-sm text-slate-700">Matahari kita bersuhu permukaan 5800 Kelvin. Tentukan panjang gelombang puncak energinya dalam satuan nanometer (nm)!</p>
+            <button onclick="toggleSection('sol-topik4-we')" class="mt-3 text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1">
+              👁️ Lihat Jalur Solusi Guru
+            </button>
+            <div id="sol-topik4-we" class="hidden mt-4 bg-white p-4 rounded-xl border border-teal-100 text-xs text-slate-600 space-y-1">
+              <p class="font-bold text-slate-800">Langkah Kunci:</p>
+              <p>\(\lambda_{\text{max}} = \frac{2,9 \times 10^{-3}}{5800} = 5 \times 10^{-7} \text{ m}\)</p>
+              <p>Ubah ke nanometer (\(1 \text{ nm} = 10^{-9} \text{ m}\)):</p>
+              <p>\(\lambda_{\text{max}} = 500 \text{ nm}\) (Masuk dalam warna spektrum hijau-kuning!).</p>
+            </div>
+          </div>
+
+          <!-- YOU DO -->
+          <div class="border-l-4 border-rose-500 bg-rose-50/20 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-rose-700 tracking-wide uppercase">[YOU DO] Uji Mandiri Siswa</span>
+            <div class="mt-3 space-y-4 text-sm text-slate-700">
+              <p><strong>Soal 4A:</strong> Bintang Rigel bersuhu permukaan sangat panas yaitu 11.600 Kelvin. Tentukan panjang gelombang puncak emisinya!</p>
+              <p><strong>Soal 4B:</strong> Bintang P memuncak pada 400 nm, sedangkan Bintang Q memuncak pada 800 nm. Tentukan rasio perbandingan suhu efektif kedua bintang!</p>
+            </div>
+            <!-- Interactive Quiz Section -->
+            <div class="mt-4 pt-4 border-t border-rose-100 flex flex-col md:flex-row gap-2 items-center">
+              <input id="ans-t4" type="text" placeholder="Masukkan jawaban Soal 4B (cth: 2:1)" class="px-3 py-2 border rounded-lg text-xs w-full md:w-auto focus:outline-none focus:ring-1 focus:ring-rose-500">
+              <button onclick="checkAnswer('t4', '2:1', 'Jawaban Benar! Karena panjang gelombang berbanding terbalik secara linier dengan suhu, bintang P yang memiliki panjang gelombang puncak setengah dari bintang Q akan memiliki suhu 2 kali lebih panas (2:1).')" class="bg-rose-600 text-white text-xs px-4 py-2 rounded-lg font-medium hover:bg-rose-700 w-full md:w-auto">Cek Jawaban</button>
+            </div>
+            <p id="feedback-t4" class="text-xs font-semibold mt-2 hidden"></p>
+          </div>
+        </div>
+
+        <!-- GURU SECTION ONLY -->
+        <div class="guru-mode hidden bg-indigo-900/5 p-6 rounded-2xl border border-indigo-900/20 space-y-3">
+          <h4 class="text-sm font-bold text-indigo-950 flex items-center gap-1">📋 Lembar Pegangan & Diagnostik Guru</h4>
+          <p class="text-xs text-slate-600">
+            <strong>Analisis Kesalahan Siswa:</strong> Penguasaan konsep eksponen bernilai negatif mutlak diperlukan dalam bab ini. Latihlah siswa untuk lancar membagi angka-angka desimal berpangkat sebelum masuk ke kurva Wien.
+          </p>
+        </div>
+      </section>
+
+
+      <!-- TOPIK 5 -->
+      <section id="topik5" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 5: Astrofisika Lanjut</span>
+          <h2 class="text-2xl font-bold text-slate-800 mt-1">Luminositas Bintang & Stefan-Boltzmann</h2>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold text-slate-800 flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 p-1 rounded-lg text-xs">A</span> Teori & Konsep Fisika Sistem
+          </h3>
+          <p class="text-slate-600 leading-relaxed text-sm">
+            Total daya energi yang dipancarkan bintang ke seluruh arah disebut **Luminositas (L)**. Besaran ini bergantung pada luas kulit bola bintang (\(4\pi R^2\)) dan fluks emisi radiasinya (\(\sigma T^4\)).
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-slate-600 text-sm">
+            <li><strong>Jari-jari (R):</strong> Ukuran fisik bintang.</li>
+            <li><strong>Suhu Efektif (T):</strong> Memiliki pengaruh pangkat 4 (\(T^4\)), sehingga perubahan kecil suhu berdampak sangat masif pada kecerlangan bintang.</li>
+          </ul>
+
+          <div class="latex-equation">
+            $$L = 4\pi R^2 \sigma T^4$$
+          </div>
+
+          <!-- SVG DIAGRAM 5 -->
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex flex-col items-center">
+            <svg class="w-full max-w-lg h-auto" viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
+              <!-- Grid background -->
+              <rect width="500" height="220" fill="#f8fafc" rx="12" />
+
+              <!-- Star A (Small, Hot White Dwarf) -->
+              <g transform="translate(110, 110)">
+                <!-- Heat glowing effect -->
+                <circle cx="0" cy="0" r="30" fill="#60a5fa" opacity="0.15" />
+                <circle cx="0" cy="0" r="20" fill="#93c5fd" opacity="0.3" />
+                <circle cx="0" cy="0" r="12" fill="#fff" />
+                <!-- Outgoing powerful radiation arrows -->
+                <line x1="0" y1="-15" x2="0" y2="-45" stroke="#2563eb" stroke-width="2" />
+                <line x1="0" y1="15" x2="0" y2="45" stroke="#2563eb" stroke-width="2" />
+                <line x1="-15" y1="0" x2="-45" y2="0" stroke="#2563eb" stroke-width="2" />
+                <line x1="15" y1="0" x2="45" y2="0" stroke="#2563eb" stroke-width="2" />
+                
+                <text x="0" y="65" font-size="10" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Katai Putih (Kecil, Panas)</text>
+                <text x="0" y="80" font-size="9" fill="#475569" text-anchor="middle">R = 0.1 R☉, T = 2 T☉</text>
+              </g>
+
+              <!-- Equal Sign or comparison line -->
+              <line x1="230" y1="110" x2="270" y2="110" stroke="#94a3b8" stroke-width="3" />
+              <line x1="230" y1="120" x2="270" y2="120" stroke="#94a3b8" stroke-width="3" />
+              <text x="250" y="95" font-size="9" fill="#475569" font-weight="bold" text-anchor="middle">Perbandingan</text>
+
+              <!-- Star B (Giant, Cool Star) -->
+              <g transform="translate(380, 110)">
+                <!-- Large giant star body -->
+                <circle cx="0" cy="0" r="45" fill="#fca5a5" opacity="0.3" />
+                <circle cx="0" cy="0" r="38" fill="#f87171" />
+                <circle cx="0" cy="0" r="30" fill="#ef4444" />
+                <!-- Slow radiation arrows -->
+                <line x1="0" y1="-40" x2="0" y2="-55" stroke="#b91c1c" stroke-width="1.5" />
+                <line x1="0" y1="40" x2="0" y2="55" stroke="#b91c1c" stroke-width="1.5" />
+                <line x1="-40" y1="0" x2="-55" y2="0" stroke="#b91c1c" stroke-width="1.5" />
+                <line x1="40" y1="0" x2="55" y2="0" stroke="#b91c1c" stroke-width="1.5" />
+
+                <text x="0" y="65" font-size="10" font-weight="bold" fill="#7f1d1d" text-anchor="middle">Raksasa Merah (Besar, Dingin)</text>
+                <text x="0" y="80" font-size="9" fill="#475569" text-anchor="middle">R = 4 R☉, T = 0.5 T☉</text>
+              </g>
+            </svg>
+            <p class="text-xs text-slate-500 italic mt-2 text-center">Gambar 5: Bintang kecil yang sangat panas dapat memancarkan daya (L) setara bintang raksasa dingin.</p>
+          </div>
+        </div>
+
+        <!-- Structure Cards -->
+        <div class="grid grid-cols-1 gap-6 pt-4">
+          <!-- I DO -->
+          <div class="border-l-4 border-indigo-600 bg-indigo-50/50 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-indigo-700 tracking-wide uppercase">[I DO] Pemodelan Guru</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal:</p>
+            <p class="text-sm text-slate-700 italic">Sebuah bintang raksasa berjejari 2 kali Matahari, bersuhu sama dengan Matahari. Hitunglah rasionya dalam Luminositas Matahari!</p>
+            <div class="mt-4 bg-white p-3.5 rounded-xl border border-indigo-100 text-xs space-y-2 text-slate-600 leading-relaxed">
+              <p class="font-bold text-slate-800">Langkah Penyelesaian:</p>
+              <p>1. Hubungan proporsional: \(L \propto R^2 \cdot T^4\)</p>
+              <p>2. Karena \(T\) sama, maka: \(\frac{L_{\text{baru}}}{L_{\odot}} = \left(\frac{R_{\text{baru}}}{R_{\odot}}\right)^2\)</p>
+              <p>3. Substitusi nilai: \(\frac{L_{\text{baru}}}{L_{\odot}} = (2)^2 = 4 \text{ L}_{\odot}\)</p>
+            </div>
+          </div>
+
+          <!-- WE DO -->
+          <div class="border-l-4 border-teal-500 bg-teal-50/30 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-teal-700 tracking-wide uppercase">[WE DO] Kolaborasi Kelas</span>
+            <p class="text-sm font-semibold text-slate-800 mt-2">Soal Latihan Bersama:</p>
+            <p class="text-sm text-slate-700">Bintang katai putih berjejari 0,1 kali Matahari, tetapi suhunya 2 kali lipat lebih panas dari Matahari. Berapakah rasionya dalam Luminositas Matahari?</p>
+            <button onclick="toggleSection('sol-topik5-we')" class="mt-3 text-xs font-semibold text-teal-700 hover:underline flex items-center gap-1">
+              👁️ Lihat Jalur Solusi Guru
+            </button>
+            <div id="sol-topik5-we" class="hidden mt-4 bg-white p-4 rounded-xl border border-teal-100 text-xs text-slate-600 space-y-1">
+              <p class="font-bold text-slate-800">Langkah Kunci:</p>
+              <p>\(\frac{L_{\text{baru}}}{L_{\odot}} = (0,1)^2 \cdot (2)^4\)</p>
+              <p>\(\frac{L_{\text{baru}}}{L_{\odot}} = 0,01 \cdot 16 = 0,16 \text{ L}_{\odot}\)</p>
+            </div>
+          </div>
+
+          <!-- YOU DO -->
+          <div class="border-l-4 border-rose-500 bg-rose-50/20 p-5 rounded-r-2xl">
+            <span class="text-xs font-bold text-rose-700 tracking-wide uppercase">[YOU DO] Uji Mandiri Siswa</span>
+            <div class="mt-3 space-y-4 text-sm text-slate-700">
+              <p><strong>Soal 5A:</strong> Bintang supergiant merah Betelgeuse berluminositas 10.000 Luminositas Matahari. Jika suhunya hanya setengah dari suhu Matahari, hitunglah radius fisiknya dibanding radius Matahari!</p>
+              <p><strong>Soal 5B:</strong> Bintang A memiliki radius 4 kali bintang B. Jika luminositas keduanya terdeteksi sama, tentukan rasio perbandingan suhu efektif kedua bintang!</p>
+            </div>
+            <!-- Interactive Quiz Section -->
+            <div class="mt-4 pt-4 border-t border-rose-100 flex flex-col md:flex-row gap-2 items-center">
+              <input id="ans-t5" type="text" placeholder="Masukkan jawaban Soal 5A (cth: 400)" class="px-3 py-2 border rounded-lg text-xs w-full md:w-auto focus:outline-none focus:ring-1 focus:ring-rose-500">
+              <button onclick="checkAnswer('t5', '400', 'Jawaban Benar! Melalui hitungan: 10.000 = R² * (0.5)⁴ => 10.000 = R² * 0.0625 => R² = 160.000 => R = 400 kali radius Matahari.')" class="bg-rose-600 text-white text-xs px-4 py-2 rounded-lg font-medium hover:bg-rose-700 w-full md:w-auto">Cek Jawaban</button>
+            </div>
+            <p id="feedback-t5" class="text-xs font-semibold mt-2 hidden"></p>
+          </div>
+        </div>
+
+        <!-- GURU SECTION ONLY -->
+        <div class="guru-mode hidden bg-indigo-900/5 p-6 rounded-2xl border border-indigo-900/20 space-y-3">
+          <h4 class="text-sm font-bold text-indigo-950 flex items-center gap-1">📋 Lembar Pegangan & Diagnostik Guru</h4>
+          <p class="text-xs text-slate-600">
+            <strong>Analisis Kesalahan Siswa:</strong> Ini adalah level kesulitan tertinggi untuk materi radiasi awal. Pastikan siswa teliti melakukan operasi kuadrat pada variabel R serta pangkat empat penuh pada variabel T sebelum melakukan perbandingan.
+          </p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-16 text-center text-xs">
+    <p>© 2026 Modul OSN Astronomi Interaktif. Dikembangkan untuk Guru pembina & Siswa Olimpiade Astronomi Indonesia.</p>
+  </footer>
+
+  <!-- Notification Message Box (Avoid Alert) -->
+  <div id="toast-box" class="fixed bottom-5 right-5 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-xl border border-slate-700 hidden transform translate-y-10 transition-all duration-300 max-w-sm z-50">
+    <div class="flex items-start gap-3">
+      <span id="toast-icon" class="text-xl"></span>
+      <div>
+        <h4 id="toast-title" class="font-bold text-sm"></h4>
+        <p id="toast-desc" class="text-xs text-slate-300 mt-1 leading-relaxed"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize KaTeX render on DOMContentLoaded to guarantee document.body is constructed and fully loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError: false
+      });
+    });
+
+    // Toggle collapsible solutions
+    function toggleSection(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('hidden');
+    }
+
+    // Smooth scroll navigation
+    function scrollToTopic(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Switch between Student and Teacher Mode
+    function switchMode(mode) {
+      const elements = document.getElementsByClassName('guru-mode');
+      const btnSiswa = document.getElementById('btn-siswa');
+      const btnGuru = document.getElementById('btn-guru');
+
+      if (mode === 'guru') {
+        // Show guru sections
+        for (let el of elements) {
+          el.classList.remove('hidden');
+        }
+        btnGuru.className = "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow";
+        btnSiswa.className = "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white";
+        showToast("💡 Mode Guru Aktif", "Analisis diagnostik, panduan, dan kunci langkah penyelesaian mandiri sekarang ditampilkan.", "✨");
+      } else {
+        // Hide guru sections
+        for (let el of elements) {
+          el.classList.add('hidden');
+        }
+        btnSiswa.className = "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow";
+        btnGuru.className = "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white";
+        showToast("👤 Mode Siswa Aktif", "Pembahasan kunci mandiri telah disembunyikan. Selamat berlatih!", "✏️");
+      }
+    }
+
+    // Custom non-alert feedback/toast system
+    function showToast(title, desc, icon) {
+      const box = document.getElementById('toast-box');
+      document.getElementById('toast-title').innerText = title;
+      document.getElementById('toast-desc').innerText = desc;
+      document.getElementById('toast-icon').innerText = icon;
+
+      box.classList.remove('hidden');
+      box.classList.remove('translate-y-10', 'opacity-0');
+      
+      setTimeout(() => {
+        box.classList.add('translate-y-10', 'opacity-0');
+        setTimeout(() => box.classList.add('hidden'), 300);
+      }, 5000);
+    }
+
+    // Check quiz answers
+    function checkAnswer(topic, correctValue, explanation) {
+      const userInput = document.getElementById('ans-' + topic).value.trim();
+      const feedback = document.getElementById('feedback-' + topic);
+
+      feedback.classList.remove('hidden');
+      
+      if (userInput === correctValue) {
+        feedback.className = "text-xs font-semibold mt-2 text-emerald-600";
+        feedback.innerHTML = "✅ Benar! " + explanation;
+        showToast("🎉 Jawaban Tepat!", "Kamu berhasil menyelesaikan tantangan " + topic.toUpperCase() + ".", "🏆");
+      } else {
+        feedback.className = "text-xs font-semibold mt-2 text-rose-600";
+        feedback.innerHTML = "❌ Kurang tepat. Coba periksa kembali perhitungan atau pindah ruas aljabarmu.";
+        showToast("⚠️ Belum Tepat", "Coba hitung sekali lagi atau gunakan tombol pemandu guru.", "🔍");
+      }
+    }
+  </script>
+</body>
+</html>
