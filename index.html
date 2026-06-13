@@ -24,22 +24,22 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col pt-[130px] md:pt-[100px]">
 
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-md border-b border-indigo-500/20 py-6 px-4 sticky top-0 z-50">
+  <!-- Header with hide-on-scroll and minimize transition -->
+  <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-md border-b border-indigo-500/20 py-6 px-4 fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-      <div>
-        <span class="bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-2.5 py-1 rounded-full border border-indigo-500/30">Modul OSN Astronomi V2</span>
-        <h1 class="text-2xl md:text-3xl font-bold tracking-tight mt-1">Instrumen Hitungan & Teori Astronomi</h1>
-        <p class="text-xs md:text-sm text-slate-300 italic mt-0.5">Konsep Visual Bermakna dengan Struktur Belajar "I Do, We Do, You Do"</p>
+      <div class="transition-all duration-300">
+        <span class="bg-indigo-500/20 text-indigo-300 text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-full border border-indigo-500/30">Modul OSN Astronomi V2</span>
+        <h1 id="header-title" class="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight mt-1 transition-all duration-300">Instrumen Hitungan & Teori Astronomi</h1>
+        <p id="header-subtitle" class="text-[10px] md:text-xs text-slate-300 italic mt-0.5 transition-all duration-300">Konsep Visual Bermakna dengan Struktur Belajar "I Do, We Do, You Do"</p>
       </div>
       <!-- Mode Toggle -->
-      <div class="flex items-center gap-2 bg-slate-800/80 p-1.5 rounded-xl border border-slate-700">
-        <button id="btn-siswa" onclick="switchMode('siswa')" class="px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow">
+      <div class="flex items-center gap-2 bg-slate-800/80 p-1.5 rounded-xl border border-slate-700 shrink-0">
+        <button id="btn-siswa" onclick="switchMode('siswa')" class="px-3 md:px-4 py-1.5 text-xs md:text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow">
           👤 Lembar Siswa
         </button>
-        <button id="btn-guru" onclick="switchMode('guru')" class="px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white">
+        <button id="btn-guru" onclick="switchMode('guru')" class="px-3 md:px-4 py-1.5 text-xs md:text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white">
           👨‍🏫 Lembar Guru (Kunci & Diagnostik)
         </button>
       </div>
@@ -51,7 +51,7 @@
     
     <!-- Sidebar Navigation -->
     <aside class="lg:col-span-1 space-y-2">
-      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 sticky top-28">
+      <div id="sidebar-nav" class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 sticky top-[150px] transition-all duration-300">
         <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2">Daftar Topik Materi</h2>
         <nav class="space-y-1">
           <button onclick="scrollToTopic('topik1')" class="w-full text-left px-3 py-2 text-sm font-medium rounded-lg text-indigo-600 bg-indigo-50 hover:bg-indigo-100/50 transition-colors flex items-center gap-2">
@@ -82,7 +82,7 @@
     <main class="lg:col-span-3 space-y-12">
 
       <!-- TOPIK 1 -->
-      <section id="topik1" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+      <section id="topik1" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6 scroll-mt-32">
         <div class="border-b border-slate-100 pb-4">
           <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 1: Mekanika Benda Langit</span>
           <h2 class="text-2xl font-bold text-slate-800 mt-1">Skala Waktu Sideris vs Sinodis</h2>
@@ -142,13 +142,11 @@
               <circle cx="250" cy="30" r="5" fill="#fca5a5" />
               <text x="264" y="33" font-size="10" fill="#7f1d1d" font-weight="bold">Planet Luar (P₁)</text>
 
-              <!-- Moved Earth to E2 after S (e.g. angle around 125 degrees counterclockwise, i.e. 215 deg in standard polar coordinates) -->
-              <!-- Angle = 125 deg from vertical. x = 250 + 70*cos(215 deg) = 250 - 57 = 193, y = 160 + 70*sin(215) = 160 - 40 = 120 -->
+              <!-- Moved Earth to E2 after S -->
               <circle cx="193" cy="120" r="7" fill="#3b82f6" opacity="0.6"/>
               <text x="175" y="138" font-size="10" fill="#1e3a8a" opacity="0.8">Bumi (E₂)</text>
 
               <!-- Moved Planet to P2 after S -->
-              <!-- x = 250 - 130*cos(52.5 deg) = 250 - 103 = 147, y = 160 - 130*sin(52.5) = 160 - 79 = 81 -->
               <circle cx="147" cy="81" r="9" fill="#ef4444" opacity="0.6"/>
               <text x="110" y="85" font-size="10" fill="#7f1d1d" opacity="0.8">Planet (P₂)</text>
 
@@ -218,7 +216,7 @@
 
 
       <!-- TOPIK 2 -->
-      <section id="topik2" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+      <section id="topik2" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6 scroll-mt-32">
         <div class="border-b border-slate-100 pb-4">
           <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 2: Fotometri & Alat Optik</span>
           <h2 class="text-2xl font-bold text-slate-800 mt-1">Resolusi Optik & Instrumen Teleskop</h2>
@@ -254,12 +252,10 @@
                 <line x1="10" y1="210" x2="490" y2="210" />
               </g>
 
-              <!-- Panel 1: Unresolved (Bintang menyatu/blur) -->
+              <!-- Panel 1: Unresolved -->
               <g transform="translate(0,0)">
                 <text x="80" y="30" font-size="10" font-weight="bold" fill="#ef4444" text-anchor="middle">1. Belum Terpisah (Blur)</text>
-                <!-- Combined single broad curve -->
                 <path d="M 20,210 Q 80,40 140,210" fill="none" stroke="#ef4444" stroke-width="2.5" />
-                <!-- Star spheres overlapping completely -->
                 <circle cx="75" cy="205" r="5" fill="#fca5a5" />
                 <circle cx="85" cy="205" r="5" fill="#fca5a5" />
               </g>
@@ -267,19 +263,16 @@
               <!-- Panel 2: Just Resolved (Dawes Limit) -->
               <g transform="translate(170,0)">
                 <text x="80" y="30" font-size="10" font-weight="bold" fill="#eab308" text-anchor="middle">2. Batas Kriteria Dawes</text>
-                <!-- Two overlapping curves -->
                 <path d="M 10,210 Q 55,70 80,140" fill="none" stroke="#eab308" stroke-width="1.5" stroke-dasharray="2 2" />
                 <path d="M 80,140 Q 105,70 150,210" fill="none" stroke="#eab308" stroke-width="1.5" stroke-dasharray="2 2" />
-                <!-- Resultant curve with a small dip -->
                 <path d="M 10,210 C 45,70 65,110 80,120 C 95,110 115,70 150,210" fill="none" stroke="#eab308" stroke-width="2.5" />
                 <circle cx="55" cy="205" r="5" fill="#fef08a" />
                 <circle cx="105" cy="205" r="5" fill="#fef08a" />
               </g>
 
-              <!-- Panel 3: Well Resolved (Terpisah Jelas) -->
+              <!-- Panel 3: Well Resolved -->
               <g transform="translate(340,0)">
                 <text x="80" y="30" font-size="10" font-weight="bold" fill="#10b981" text-anchor="middle">3. Terpisah Jelas</text>
-                <!-- Two separate curves -->
                 <path d="M 10,210 Q 45,70 80,210" fill="none" stroke="#10b981" stroke-width="2" />
                 <path d="M 80,210 Q 115,70 150,210" fill="none" stroke="#10b981" stroke-width="2" />
                 <circle cx="45" cy="205" r="5" fill="#a7f3d0" />
@@ -346,7 +339,7 @@
 
 
       <!-- TOPIK 3 -->
-      <section id="topik3" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+      <section id="topik3" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6 scroll-mt-32">
         <div class="border-b border-slate-100 pb-4">
           <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 3: Astrofisika Radiasi</span>
           <h2 class="text-2xl font-bold text-slate-800 mt-1">Hukum Kuadrat Kebalikan Fluks Radiasi</h2>
@@ -382,7 +375,6 @@
               <line x1="52" y1="120" x2="450" y2="120" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="2 2" />
 
               <!-- Distance d -->
-              <!-- Plane d -->
               <path d="M 170,90 L 170,150" stroke="#3b82f6" stroke-width="2" />
               <rect x="165" y="110" width="10" height="20" fill="#93c5fd" stroke="#2563eb" stroke-width="1" />
               <text x="170" y="80" font-size="10" fill="#1e3a8a" font-weight="bold" text-anchor="middle">Fluks = F</text>
@@ -390,7 +382,6 @@
 
               <!-- Plane 2d -->
               <path d="M 300,70 L 300,170" stroke="#10b981" stroke-width="2" />
-              <!-- Represent 4 squares -->
               <g stroke="#059669" stroke-width="0.5" fill="#a7f3d0">
                 <rect x="295" y="90" width="10" height="20" />
                 <rect x="295" y="110" width="10" height="20" />
@@ -401,7 +392,6 @@
 
               <!-- Plane 3d -->
               <path d="M 430,50 L 430,190" stroke="#f59e0b" stroke-width="2" />
-              <!-- Represent 9 squares -->
               <g stroke="#d97706" stroke-width="0.5" fill="#fde68a">
                 <rect x="425" y="70" width="10" height="15" />
                 <rect x="425" y="85" width="10" height="15" />
@@ -475,7 +465,7 @@
 
 
       <!-- TOPIK 4 -->
-      <section id="topik4" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+      <section id="topik4" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6 scroll-mt-32">
         <div class="border-b border-slate-100 pb-4">
           <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 4: Termodinamika Bintang</span>
           <h2 class="text-2xl font-bold text-slate-800 mt-1">Hukum Radiasi Wien & Suhu Bintang</h2>
@@ -509,10 +499,10 @@
 
               <!-- Color spectrum bar on x axis -->
               <g opacity="0.3">
-                <rect x="100" y="202" width="40" height="6" fill="#3b82f6" /> <!-- Blue -->
-                <rect x="140" y="202" width="40" height="6" fill="#10b981" /> <!-- Green -->
-                <rect x="180" y="202" width="40" height="6" fill="#eab308" /> <!-- Yellow -->
-                <rect x="220" y="202" width="60" height="6" fill="#ef4444" /> <!-- Red -->
+                <rect x="100" y="202" width="40" height="6" fill="#3b82f6" />
+                <rect x="140" y="202" width="40" height="6" fill="#10b981" />
+                <rect x="180" y="202" width="40" height="6" fill="#eab308" />
+                <rect x="220" y="202" width="60" height="6" fill="#ef4444" />
               </g>
 
               <!-- Curve 1 (T = 6000K, Hot Star) -->
@@ -592,7 +582,7 @@
 
 
       <!-- TOPIK 5 -->
-      <section id="topik5" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6">
+      <section id="topik5" class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 space-y-6 scroll-mt-32">
         <div class="border-b border-slate-100 pb-4">
           <span class="text-xs font-bold text-indigo-600 tracking-wider uppercase">Topik 5: Astrofisika Lanjut</span>
           <h2 class="text-2xl font-bold text-slate-800 mt-1">Luminositas Bintang & Stefan-Boltzmann</h2>
@@ -622,11 +612,9 @@
 
               <!-- Star A (Small, Hot White Dwarf) -->
               <g transform="translate(110, 110)">
-                <!-- Heat glowing effect -->
                 <circle cx="0" cy="0" r="30" fill="#60a5fa" opacity="0.15" />
                 <circle cx="0" cy="0" r="20" fill="#93c5fd" opacity="0.3" />
                 <circle cx="0" cy="0" r="12" fill="#fff" />
-                <!-- Outgoing powerful radiation arrows -->
                 <line x1="0" y1="-15" x2="0" y2="-45" stroke="#2563eb" stroke-width="2" />
                 <line x1="0" y1="15" x2="0" y2="45" stroke="#2563eb" stroke-width="2" />
                 <line x1="-15" y1="0" x2="-45" y2="0" stroke="#2563eb" stroke-width="2" />
@@ -643,11 +631,9 @@
 
               <!-- Star B (Giant, Cool Star) -->
               <g transform="translate(380, 110)">
-                <!-- Large giant star body -->
                 <circle cx="0" cy="0" r="45" fill="#fca5a5" opacity="0.3" />
                 <circle cx="0" cy="0" r="38" fill="#f87171" />
                 <circle cx="0" cy="0" r="30" fill="#ef4444" />
-                <!-- Slow radiation arrows -->
                 <line x1="0" y1="-40" x2="0" y2="-55" stroke="#b91c1c" stroke-width="1.5" />
                 <line x1="0" y1="40" x2="0" y2="55" stroke="#b91c1c" stroke-width="1.5" />
                 <line x1="-40" y1="0" x2="-55" y2="0" stroke="#b91c1c" stroke-width="1.5" />
@@ -736,7 +722,7 @@
   </div>
 
   <script>
-    // Initialize KaTeX render on DOMContentLoaded to guarantee document.body is constructed and fully loaded
+    // Initialize KaTeX render on DOMContentLoaded
     document.addEventListener("DOMContentLoaded", function() {
       renderMathInElement(document.body, {
         delimiters: [
@@ -749,6 +735,55 @@
       });
     });
 
+    // Header Minimize & Hide on Scroll logic
+    let lastScrollY = window.scrollY;
+    const header = document.querySelector('header');
+    const headerTitle = document.getElementById('header-title');
+    const headerSubtitle = document.getElementById('header-subtitle');
+    const sidebarNav = document.getElementById('sidebar-nav');
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+
+      // 1. Minimize padding and font sizes when scrolled down a bit
+      if (currentScrollY > 40) {
+        header.classList.remove('py-6');
+        header.classList.add('py-2', 'md:py-3', 'shadow-lg');
+        
+        headerTitle.classList.remove('text-xl', 'md:text-2xl', 'lg:text-3xl');
+        headerTitle.classList.add('text-base', 'md:text-lg', 'lg:text-xl');
+        
+        headerSubtitle.classList.add('hidden');
+      } else {
+        header.classList.remove('py-2', 'md:py-3', 'shadow-lg');
+        header.classList.add('py-6');
+        
+        headerTitle.classList.remove('text-base', 'md:text-lg', 'lg:text-xl');
+        headerTitle.classList.add('text-xl', 'md:text-2xl', 'lg:text-3xl');
+        
+        headerSubtitle.classList.remove('hidden');
+      }
+
+      // 2. Fully hide header when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 150) {
+        // Scrolling down -> Hide header
+        header.classList.add('-translate-y-full');
+        if (sidebarNav) {
+          // Bring sidebar closer to top when header is gone
+          sidebarNav.style.top = '1.5rem'; 
+        }
+      } else {
+        // Scrolling up -> Show header
+        header.classList.remove('-translate-y-full');
+        if (sidebarNav) {
+          // Offset sidebar to avoid overlapping with visible header
+          sidebarNav.style.top = '7.5rem';
+        }
+      }
+
+      lastScrollY = currentScrollY;
+    });
+
     // Toggle collapsible solutions
     function toggleSection(id) {
       const el = document.getElementById(id);
@@ -757,7 +792,7 @@
 
     // Smooth scroll navigation
     function scrollToTopic(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     // Switch between Student and Teacher Mode
@@ -767,20 +802,18 @@
       const btnGuru = document.getElementById('btn-guru');
 
       if (mode === 'guru') {
-        // Show guru sections
         for (let el of elements) {
           el.classList.remove('hidden');
         }
-        btnGuru.className = "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow";
-        btnSiswa.className = "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white";
+        btnGuru.className = "px-3 md:px-4 py-1.5 text-xs md:text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow";
+        btnSiswa.className = "px-3 md:px-4 py-1.5 text-xs md:text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white";
         showToast("💡 Mode Guru Aktif", "Analisis diagnostik, panduan, dan kunci langkah penyelesaian mandiri sekarang ditampilkan.", "✨");
       } else {
-        // Hide guru sections
         for (let el of elements) {
           el.classList.add('hidden');
         }
-        btnSiswa.className = "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow";
-        btnGuru.className = "px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white";
+        btnSiswa.className = "px-3 md:px-4 py-1.5 text-xs md:text-sm font-medium rounded-lg transition-all duration-200 bg-indigo-600 text-white shadow";
+        btnGuru.className = "px-3 md:px-4 py-1.5 text-xs md:text-sm font-medium rounded-lg transition-all duration-200 text-slate-300 hover:text-white";
         showToast("👤 Mode Siswa Aktif", "Pembahasan kunci mandiri telah disembunyikan. Selamat berlatih!", "✏️");
       }
     }
